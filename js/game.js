@@ -3,23 +3,23 @@ $(document).ready(function () {
     VARIABLES
   */
 
-  var buttonColors = ["red", "blue", "green", "yellow"];
+  var buttonColors = ['red', 'blue', 'green', 'yellow'];
   var gamePattern = [];
   var userClickedPattern = [];
   var sequenceStarted = false;
   var levelNo = 0;
-  var instructions = $("#instructions");
-  var levelText = $("#level-text");
+  var instructions = $('#instructions');
+  var levelText = $('#level-text');
 
   /*
     ACTIONS
   */
 
   //HIGH SCORE IN LOCAL STORAGE
-  var highScore = localStorage.getItem("highScore");
+  var highScore = localStorage.getItem('highScore');
 
   if (highScore === null) {
-    localStorage.setItem("highScore", "0");
+    localStorage.setItem('highScore', '0');
   } else {
     updateHighScore();
   }
@@ -29,7 +29,7 @@ $(document).ready(function () {
   //prevent multiple firings by pressing/holding multiple keys
   var keydown = false;
 
-  $(document).on("keydown", function () {
+  $(document).on('keydown', function () {
     if (!keydown) {
       if (!sequenceStarted) {
         keydown = true;
@@ -45,7 +45,7 @@ $(document).ready(function () {
   //prevent multiple firings by pressing/holding multiple keys
   var touch = false;
 
-  $(document).on("touchend", ".any-key", function () {
+  $(document).on('touchend', '.any-key', function () {
     if (!touch) {
       if (!sequenceStarted) {
         touch = true;
@@ -58,11 +58,11 @@ $(document).ready(function () {
 
   //ACTIONS ON BUTTON PRESS
 
-  $(".btn").on("click", function () {
+  $('.btn').on('click', function () {
     if (!sequenceStarted) {
       return;
     } else {
-      var userChosenColor = $(this).attr("id");
+      var userChosenColor = $(this).attr('id');
 
       //store user clicks (colors) in userClickedPattern array
       userClickedPattern.push(userChosenColor);
@@ -84,13 +84,13 @@ $(document).ready(function () {
 
   //START GAME
   function startGame() {
-    levelText.text("Get ready");
+    levelText.text('Get ready');
 
     var arka = new Howl({
-      src: ["sounds/arkanoid.mp3"],
+      src: ['sounds/arkanoid.mp3'],
     });
     arka.play();
-    instructions.text("Follow the pattern!");
+    instructions.text('Follow the pattern!');
     //wait for arka to play, then start newSequence
     setTimeout(nextSequence, 2000);
   }
@@ -106,10 +106,10 @@ $(document).ready(function () {
     userClickedPattern = [];
 
     //remove any key hint
-    instructions.text("");
+    instructions.text('');
 
     //update level no. in title
-    levelText.text("Level " + levelNo);
+    levelText.text('Level ' + levelNo);
 
     //get random no. 0-3 (4 colors)
     var randomNumber = Math.floor(Math.random() * 4);
@@ -121,7 +121,7 @@ $(document).ready(function () {
     gamePattern.push(randomChosenColor);
 
     //button flash
-    $("#" + randomChosenColor)
+    $('#' + randomChosenColor)
       .fadeOut(100)
       .fadeIn(100);
 
@@ -139,32 +139,32 @@ $(document).ready(function () {
         }, 1000);
       }
     } else {
-      $("body").addClass("game-over");
+      $('body').addClass('game-over');
 
       setTimeout(function () {
-        $("body").removeClass("game-over");
+        $('body').removeClass('game-over');
       }, 200);
 
       //update text
-      instructions.text("Press Any Key to Restart");
+      instructions.text('Press Any Key to Restart');
       //for touch devices to be able to restart by tapping "any key"
-      instructions.addClass("any-key");
+      instructions.addClass('any-key');
 
-      levelText.text("Game Over");
+      levelText.text('Game Over');
 
       //var wrongSound = new Audio("sounds/wrong.mp3");
       var wrongSound = new Howl({
-        src: ["sounds/wrong.mp3"],
+        src: ['sounds/wrong.mp3'],
       });
       wrongSound.play();
 
       //update high score in local storage + high score text
-      if (levelNo - 1 > localStorage.getItem("highScore") && levelNo !== 0) {
-        localStorage.setItem("highScore", levelNo - 1);
-        $("#high-score").addClass("new-record");
+      if (levelNo - 1 > localStorage.getItem('highScore') && levelNo !== 0) {
+        localStorage.setItem('highScore', levelNo - 1);
+        $('#high-score').addClass('new-record');
 
         setTimeout(function () {
-          $("#high-score").removeClass("new-record");
+          $('#high-score').removeClass('new-record');
         }, 200);
         updateHighScore();
       }
@@ -177,17 +177,17 @@ $(document).ready(function () {
   //PLAY BUTTON SOUND (BASED ON COLOR)
   function playSound(color) {
     var buttonSound = new Howl({
-      src: ["sounds/" + color + ".mp3"],
+      src: ['sounds/' + color + '.mp3'],
     });
     buttonSound.play();
   }
 
   //PRESSED BUTTON ANIMATION
   function animateButtonPress(currentColor) {
-    $("#" + currentColor).addClass("pressed");
+    $('#' + currentColor).addClass('pressed');
 
     setTimeout(function () {
-      $("#" + currentColor).removeClass("pressed");
+      $('#' + currentColor).removeClass('pressed');
     }, 100);
   }
 
@@ -202,6 +202,6 @@ $(document).ready(function () {
 
   //UPDATE HIGH SCORE TEXT
   function updateHighScore() {
-    $("#high-score").text("High Score: " + localStorage.getItem("highScore"));
+    $('#high-score').text('High Score: ' + localStorage.getItem('highScore'));
   }
 });
